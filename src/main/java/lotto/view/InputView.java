@@ -11,4 +11,8 @@ public class InputView {
     public static List<Integer> inputWinningNumbers() {
         return WinningNumbersInput.input();
     }
+
+    public static int inputBonusNumber(List<Integer> winningNumbers) {
+        return BonusNumberInput.input(winningNumbers);
+    }
 }

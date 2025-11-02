@@ -1,28 +1,14 @@
 package lotto.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import lotto.model.PurchaseAmount;
 
 public class PurchaseInput {
 
     public static int input() {
         System.out.println("구입금액을 입력해 주세요.");
         String input = Console.readLine();
-        int amount = parseInt(input);
-        validate(amount);
-        return amount;
-    }
-
-    private static int parseInt(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 숫자를 입력해야 합니다.");
-        }
-    }
-
-    private static void validate(int amount) {
-        if (amount % 1000 != 0) {
-            throw new IllegalArgumentException("[ERROR] 금액은 1,000원 단위로 입력해야 합니다.");
-        }
+        PurchaseAmount amount = new PurchaseAmount(input);
+        return amount.getValue();
     }
 }
