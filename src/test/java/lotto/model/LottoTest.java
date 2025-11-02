@@ -1,11 +1,10 @@
-package lotto;
+package lotto.model;
 
-import lotto.model.Lotto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LottoTest {
@@ -23,4 +22,12 @@ class LottoTest {
     }
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+
+    @DisplayName("로또 번호가 올바르면 정상적으로 생성된다.")
+    @Test
+    void 로또_번호_정상_생성된다() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        assertThat(lotto).isNotNull();
+        assertThat(lotto.getNumbers()).containsExactly(1, 2, 3, 4, 5, 6);
+    }
 }
