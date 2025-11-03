@@ -1,26 +1,26 @@
 package lotto.model;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProfitCalculatorTest {
 
-    @DisplayName("수익률 계산이 정확히 수행된다.")
     @Test
-    void 수익률_계산_테스트() {
-        Map<String, Integer> result = Map.of(
-                "1등", 1,
-                "3등", 1,
-                "5등", 1
+    void 수익률을_정상적으로_계산한다() {
+        Map<Rank, Integer> result = Map.of(
+                Rank.FIFTH, 1,  // 5천원
+                Rank.FOURTH, 1  // 5만원
         );
+        double rate = ProfitCalculator.calculateRate(result, 5000);
+        assertThat(rate).isEqualTo(1100.0);
+    }
 
-        ProfitCalculator calculator = new ProfitCalculator(3000, result);
-        double rate = calculator.calculateRate();
-
-        assertThat(rate).isGreaterThan(66_667_000.0);
+    @Test
+    void 당첨없을때_수익률은_0이다() {
+        Map<Rank, Integer> result = Map.of();
+        double rate = ProfitCalculator.calculateRate(result, 10000);
+        assertThat(rate).isEqualTo(0.0);
     }
 }

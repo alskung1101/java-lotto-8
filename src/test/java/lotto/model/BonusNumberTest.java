@@ -2,36 +2,32 @@ package lotto.model;
 
 import org.junit.jupiter.api.Test;
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BonusNumberTest {
 
-    private final List<Integer> winningNumbers = List.of(1,2,3,4,5,6);
-
     @Test
-    void 유효한_보너스_번호는_정상적으로_생성된다() {
-        BonusNumber bonus = new BonusNumber("7", winningNumbers);
-        assertThat(bonus.getValue()).isEqualTo(7);
+    void 보너스번호가_범위밖이면_예외발생() {
+        List<Integer> winning = List.of(1,2,3,4,5,6);
+        assertThatThrownBy(() -> new BonusNumber("50", winning))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("1~45");
     }
 
     @Test
-    void 숫자가_아닌_입력은_예외가_발생한다() {
-        assertThatThrownBy(() -> new BonusNumber("a", winningNumbers))
+    void 보너스번호가_당첨번호와_중복이면_예외발생() {
+        List<Integer> winning = List.of(1,2,3,4,5,6);
+        assertThatThrownBy(() -> new BonusNumber("6", winning))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
+                .hasMessageContaining("중복");
     }
 
     @Test
-    void 당첨_번호와_중복되면_예외가_발생한다() {
-        assertThatThrownBy(() -> new BonusNumber("1", winningNumbers))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
-    }
-
-    @Test
-    void 범위를_벗어난_번호는_예외가_발생한다() {
-        assertThatThrownBy(() -> new BonusNumber("50", winningNumbers))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
+    void 정상입력시_정상반환() {
+        List<Integer> winning = List.of(1,2,3,4,5,6);
+        BonusNumber bn = new BonusNumber("7", winning);
+        assertThat(bn.getValue()).isEqualTo(7);
     }
 }

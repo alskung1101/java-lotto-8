@@ -1,18 +1,10 @@
 package lotto.view;
 
-import java.util.List;
+import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
-
-    public static int inputPurchaseAmount() {
-        return PurchaseInput.input();
-    }
-
-    public static List<Integer> inputWinningNumbers() {
-        return WinningNumbersInput.input();
-    }
-
-    public static int inputBonusNumber(List<Integer> winningNumbers) {
-        return BonusNumberInput.input(winningNumbers);
+    public static String readLine(String message) {
+        System.out.println(message);
+        return Console.readLine();
     }
 }

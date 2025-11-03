@@ -1,27 +1,28 @@
 package lotto.model;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PurchaseAmountTest {
 
     @Test
-    void 유효한_금액은_정상_생성된다() {
-        PurchaseAmount amount = new PurchaseAmount("8000");
-        assertThat(amount.getValue()).isEqualTo(8000);
+    void 금액이_1000원단위가_아니면_예외발생() {
+        assertThatThrownBy(() -> new PurchaseAmount("1500"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("1,000원 단위");
     }
 
     @Test
-    void 금액이_1000원_단위가_아니면_예외가_발생한다() {
-        assertThatThrownBy(() -> new PurchaseAmount("8500"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
+    void 금액이_정상입력일때_값_정상반환() {
+        PurchaseAmount amount = new PurchaseAmount("5000");
+        assertThat(amount.getValue()).isEqualTo(5000);
     }
 
     @Test
-    void 숫자가_아닌_입력이면_예외가_발생한다() {
-        assertThatThrownBy(() -> new PurchaseAmount("abcd"))
+    void 숫자가_아닌_입력시_예외발생() {
+        assertThatThrownBy(() -> new PurchaseAmount("일천원"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
+                .hasMessageContaining("숫자를 입력해야 합니다");
     }
 }
