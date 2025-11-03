@@ -18,7 +18,8 @@ public class OutputView {
     public static void printResult(Map<Rank, Integer> result, double rate) {
         System.out.println("\n당첨 통계");
         System.out.println("---");
-        for (Rank rank : Rank.values()) {
+
+        for (Rank rank : Rank.getWinningRanksOrdered()) {
             if (rank.isWinningRank()) {
                 System.out.println(rank.getMessage() + " - " + result.getOrDefault(rank, 0) + "개");
             }

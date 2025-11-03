@@ -1,6 +1,7 @@
 package lotto.model;
 
 import java.util.Arrays;
+import java.util.List;
 import static lotto.model.LottoConstants.*;
 
 public enum Rank {
@@ -24,13 +25,22 @@ public enum Rank {
     }
 
     public static Rank valueOf(int matchCount, boolean hasBonus) {
-        return Arrays.stream(values())
-                .filter(rank -> rank.matchCount == matchCount && rank.hasBonus == hasBonus)
-                .findFirst()
-                .orElseGet(() -> Arrays.stream(values())
-                        .filter(rank -> rank.matchCount == matchCount && !rank.hasBonus)
-                        .findFirst()
-                        .orElse(NONE));
+        if (matchCount == 6) {
+            return FIRST;
+        }
+        if (matchCount == 5 && hasBonus) {
+            return SECOND;
+        }
+        if (matchCount == 5) {
+            return THIRD;
+        }
+        if (matchCount == 4) {
+            return FOURTH;
+        }
+        if (matchCount == 3) {
+            return FIFTH;
+        }
+        return NONE;
     }
 
     public int getPrize() {
@@ -43,5 +53,9 @@ public enum Rank {
 
     public boolean isWinningRank() {
         return this != NONE;
+    }
+
+    public static List<Rank> getWinningRanksOrdered() {
+        return List.of(FIFTH, FOURTH, THIRD, SECOND, FIRST);
     }
 }
